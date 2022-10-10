@@ -1,0 +1,2 @@
+(Revisiting lab1)
+P5: find 'k' for flower.bmp such that edge information is similar to original usage
