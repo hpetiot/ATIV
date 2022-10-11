@@ -34,20 +34,39 @@ T = [
     a(4) a(5) a(6);
     a(7) a(8) 1;
 ]
+for j = 583:807
+    for i = 209:520
+        % busCpy(i, j, 1) = 255;
+        % busCpy(i, j, 2) = 0;
+        % busCpy(i, j, 3) = 0;
 
-figure("name", "test transform B->S");
-TL = pinv(T) * [busDisplayCorners(1, 1); busDisplayCorners(1, 2); 1];
-TR = pinv(T) * [busDisplayCorners(2, 1); busDisplayCorners(2, 2); 1];
-BL = pinv(T) * [busDisplayCorners(3, 1); busDisplayCorners(3, 2); 1];
-BR = pinv(T) * [busDisplayCorners(4, 1); busDisplayCorners(4, 2); 1];
-TL = [TL(1) / TL(3);TL(2)/TL(3); 1];
-TR = [TR(1) / TR(3);TR(2)/TR(3); 1];
-BR = [BR(1) / BR(3);BR(2)/BR(3); 1];
-BL = [BL(1) / BL(3);BL(2)/BL(3); 1];
-hold("on");
-imshow(imageSimpson, []);
-plot(TL(1), TL(2), "ro");
-plot(TR(1), TR(2), "ro");
-plot(BL(1), BL(2), "ro");
-plot(BR(1), BR(2), "ro");
-hold("off");
+        newPoint = pinv(T) * [j; i; 1];
+        newPoint = [newPoint(1)/newPoint(3); newPoint(2)/newPoint(3); 1];
+        if newPoint(1) >= simpsonCorners(1, 2) && newPoint(2) <= simpsonCorners(4, 2)
+            if newPoint(2) >= simpsonCorners(1, 1) && newPoint(1) <= simpsonCorners(4, 1)
+                busCpy(i, j, 1) = imageSimpson(round(newPoint(2)), round(newPoint(1)), 1);
+                busCpy(i, j, 2) = imageSimpson(round(newPoint(2)), round(newPoint(1)), 2);
+                busCpy(i, j, 3) = imageSimpson(round(newPoint(2)), round(newPoint(1)), 3);
+
+            endif
+        endif
+    endfor
+endfor
+imshow(busCpy, []);
+imshow(imageBuss,[]);
+% figure("name", "test transform B->S");
+% TL = pinv(T) * [busDisplayCorners(1, 1); busDisplayCorners(1, 2); 1];
+% TR = pinv(T) * [busDisplayCorners(2, 1); busDisplayCorners(2, 2); 1];
+% BL = pinv(T) * [busDisplayCorners(3, 1); busDisplayCorners(3, 2); 1];
+% BR = pinv(T) * [busDisplayCorners(4, 1); busDisplayCorners(4, 2); 1];
+% TL = [TL(1) / TL(3);TL(2)/TL(3); 1];
+% TR = [TR(1) / TR(3);TR(2)/TR(3); 1];
+% BR = [BR(1) / BR(3);BR(2)/BR(3); 1];
+% BL = [BL(1) / BL(3);BL(2)/BL(3); 1];
+% hold("on");
+% imshow(imageSimpson, []);
+% plot(TL(1), TL(2), "ro");
+% plot(TR(1), TR(2), "ro");
+% plot(BL(1), BL(2), "ro");
+% plot(BR(1), BR(2), "ro");
+% hold("off");
